@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Convertisseur</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Convertisseur Multi-Unités</h1>
+
+    <!-- Convertisseur de devises -->
+    <div class="convertisseur">
+        <h2>Conversion de devises</h2>
+        <input type="number" id="montant" placeholder="Entrez le montant">
+        <select id="devise-depart">
+            <option value="EUR">Euro (€)</option>
+            <option value="USD">Dollar ($)</option>
+            <option value="JPY">Yen (¥)</option>
+            <option value="GBP">Livre (£)</option>
+            <option value="INR">Roupie (₹)</option>
+            <option value="ETB">BIRR (ብር)</option>
+            <option value="CAD">Dollar Canadien ($)</option>
+        </select>
+
+        <select id="devise-arrivee">
+            <option value="EUR">Euro (€)</option>
+            <option value="USD">Dollar ($)</option>
+            <option value="JPY">Yen (¥)</option>
+            <option value="GBP">Livre (£)</option>
+            <option value="INR">Roupie (₹)</option>
+            <option value="ETB">BIRR (ብር)</option>
+            <option value="CAD">Dollar Canadien ($)</option>
+        </select>
+
+        <button onclick="convertir()">Convertir</button>
+        <p id="resultat"></p>
+    </div>
+
+    <!-- Convertisseur de températures -->
+    <div class="convertisseur">
+        <h2>Conversion de températures</h2>
+        <input type="number" id="temp" placeholder="Entrez la température">
+        <select id="temp-depart">
+            <option value="C">Celsius (°C)</option>
+            <option value="F">Fahrenheit (°F)</option>
+            <option value="K">Kelvin (K)</option>
+        </select>
+        <select id="temp-arrivee">
+            <option value="C">Celsius (°C)</option>
+            <option value="F">Fahrenheit (°F)</option>
+            <option value="K">Kelvin (K)</option>
+        </select>
+
+        <button onclick="convertirTemperature()">Convertir</button>
+        <p id="resultatTemp"></p>
+    </div>
+
+    <!-- Script JS -->
+    <script>
+        // Conversion température
+        function convertirTemperature() {
+            let temp = parseFloat(document.getElementById("temp").value);
+            let depart = document.getElementById("temp-depart").value;
+            let arrivee = document.getElementById("temp-arrivee").value;
+            let resultat;
+
+            if (isNaN(temp)) {
+                alert("Veuillez entrer une température valide !");
+                return;
+            }
+
+            let tempC;
+            if (depart === "C") tempC = temp;
+            else if (depart === "F") tempC = (temp - 32) * 5/9;
+            else if (depart === "K") tempC = temp - 273.15;
+
+            if (arrivee === "C") resultat = tempC;
+            else if (arrivee === "F") resultat = (tempC * 9/5) + 32;
+            else if (arrivee === "K") resultat = tempC + 273.15;
+
+            document.getElementById("resultatTemp").textContent = `${temp} ${depart} = ${resultat.toFixed(2)} ${arrivee}`;
+        }
+
+        // Conversion devises
+        function convertir() {
+            let montant = parseFloat(document.getElementById("montant").value);
+            let depart = document.getElementById("devise-depart").value;
+            let arrivee = document.getElementById("devise-arrivee").value;
+
+            if (isNaN(montant)) {
+                alert("Veuillez entrer un montant valide !");
+                return;
+            }
+
+            const taux = {
+                EUR: 1,
+                USD: 1.18,
+                JPY: 184,
+                GBP: 0.87,
+                INR: 105.79,
+                ETB: 183,
+                CAD: 1.61
+            };
+
+            let resultat = montant * (taux[arrivee] / taux[depart]);
+            document.getElementById("resultat").textContent = `${montant} ${depart} = ${resultat.toFixed(2)} ${arrivee}`;
+        }
+    </script>
+
+</body>
+</html>
